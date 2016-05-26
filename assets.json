@@ -1,8 +1,62 @@
 {"frames": {
 
+"hero_attacking1.png":
+{
+	"frame": {"x":117,"y":59,"w":29,"h":44},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":21,"w":29,"h":44},
+	"sourceSize": {"w":96,"h":96},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"hero_attacking2.png":
+{
+	"frame": {"x":65,"y":59,"w":50,"h":44},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":13,"y":20,"w":50,"h":44},
+	"sourceSize": {"w":96,"h":96},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"hero_attacking3.png":
+{
+	"frame": {"x":1,"y":58,"w":62,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":26,"w":62,"h":55},
+	"sourceSize": {"w":96,"h":96},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"hero_attacking4.png":
+{
+	"frame": {"x":83,"y":1,"w":72,"h":56},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":31,"w":72,"h":56},
+	"sourceSize": {"w":96,"h":96},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"hero_attacking5.png":
+{
+	"frame": {"x":1,"y":1,"w":80,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":31,"w":80,"h":55},
+	"sourceSize": {"w":96,"h":96},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"hero_attacking6.png":
+{
+	"frame": {"x":157,"y":1,"w":63,"h":96},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":0,"w":63,"h":96},
+	"sourceSize": {"w":96,"h":96},
+	"pivot": {"x":0.5,"y":0.5}
+},
 "hero_moving1.png":
 {
-	"frame": {"x":1,"y":1,"w":28,"h":32},
+	"frame": {"x":222,"y":1,"w":28,"h":32},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":0,"w":28,"h":32},
@@ -11,7 +65,7 @@
 },
 "hero_moving2.png":
 {
-	"frame": {"x":1,"y":35,"w":28,"h":32},
+	"frame": {"x":222,"y":35,"w":28,"h":32},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":0,"w":28,"h":32},
@@ -20,7 +74,7 @@
 },
 "hero_moving3.png":
 {
-	"frame": {"x":1,"y":69,"w":28,"h":32},
+	"frame": {"x":222,"y":69,"w":28,"h":32},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":0,"w":28,"h":32},
@@ -29,7 +83,7 @@
 },
 "monster1.png":
 {
-	"frame": {"x":1,"y":103,"w":19,"h":16},
+	"frame": {"x":148,"y":99,"w":19,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":2,"w":19,"h":16},
@@ -38,7 +92,7 @@
 },
 "monster2.png":
 {
-	"frame": {"x":1,"y":121,"w":15,"h":16},
+	"frame": {"x":169,"y":99,"w":15,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":3,"w":15,"h":16},
@@ -47,7 +101,7 @@
 },
 "monster3.png":
 {
-	"frame": {"x":18,"y":121,"w":13,"h":16},
+	"frame": {"x":186,"y":99,"w":13,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":1,"w":13,"h":16},
@@ -59,8 +113,8 @@
 	"version": "1.0",
 	"image": "assets.png",
 	"format": "RGBA8888",
-	"size": {"w":32,"h":138},
+	"size": {"w":251,"h":116},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b432781da44093eef64772e5f3021936:1c2bff35894d946eb28c85f69d43e737:a759b6bbc8381ac9c472b28f589ad0d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:1a1d8eccd71bc33b8387bad69d928a37:9bde71818fa76a0473e96ad1de2de335:a759b6bbc8381ac9c472b28f589ad0d6$"
 }
 }

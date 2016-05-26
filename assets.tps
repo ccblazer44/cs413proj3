@@ -188,6 +188,12 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">hero_attacking1.png</key>
+            <key type="filename">hero_attacking2.png</key>
+            <key type="filename">hero_attacking3.png</key>
+            <key type="filename">hero_attacking4.png</key>
+            <key type="filename">hero_attacking5.png</key>
+            <key type="filename">hero_attacking6.png</key>
             <key type="filename">hero_moving1.png</key>
             <key type="filename">hero_moving2.png</key>
             <key type="filename">hero_moving3.png</key>
@@ -207,6 +213,12 @@
             <filename>monster3.png</filename>
             <filename>monster1.png</filename>
             <filename>monster2.png</filename>
+            <filename>hero_attacking1.png</filename>
+            <filename>hero_attacking2.png</filename>
+            <filename>hero_attacking3.png</filename>
+            <filename>hero_attacking4.png</filename>
+            <filename>hero_attacking5.png</filename>
+            <filename>hero_attacking6.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
