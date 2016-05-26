@@ -1,5 +1,5 @@
-var GAME_WIDTH = 400;
-var GAME_HEIGHT = 400;
+var GAME_WIDTH = 416;
+var GAME_HEIGHT = 416;
 var GAME_SCALE = 2;
 // var HORIZON_Y = GAME_HEIGHT/GAME_SCALE/2;
 
@@ -23,29 +23,130 @@ var MOVE_RIGHT = 2;
 var MOVE_UP = 3;
 var MOVE_DOWN = 4;
 var MOVE_NONE = 0;
+var player_location = [3, 2];
+
+
+//create mountains
+var mountain_array = [];
+//creates mountains that surround the stage
+for (var i = 1; i <= 18; i++){
+    for(var j = 1; j <= 18; j++){
+        if ((i == 1 || i == 18) || (j == 1 || j == 18)){
+            mountain_array.push([i, j]);
+            //console.log(i,j);
+        }
+        
+    }
+}
+mountain_array.push([12, 4]);
+mountain_array.push([14, 4]);
+for (var i = 9; i <= 14; i++){
+    mountain_array.push([i, 5]);
+}
+for (var i = 10; i <= 13; i++){
+    mountain_array.push([i, 6]);
+}
+mountain_array.push([12, 7]);
+mountain_array.push([13, 7]);
+mountain_array.push([8, 11]);
+mountain_array.push([14, 11]);
+mountain_array.push([14, 12]);
+mountain_array.push([7, 12]);
+mountain_array.push([8, 12]);
+for (var i = 6; i <= 9; i++){
+    mountain_array.push([i, 13]);
+}
+mountain_array.push([13, 13]);
+mountain_array.push([14, 13]);
+for (var i = 2; i <= 15; i++){
+    mountain_array.push([i, 14]);
+}
+for (var i = 5; i <= 10; i++){
+    mountain_array.push([i, 15]);
+}
+mountain_array.push([13, 15]);
+mountain_array.push([14, 15]);
+mountain_array.push([7, 16]);
+
+
+function isItemInArray(array, item) {
+    for (var i = 0; i < array.length; i++) {
+        // This if statement depends on the format of your array
+        if (array[i][0] == item[0] && array[i][1] == item[1]) {
+            return true;   // Found it
+        }
+    }
+    return false;   // Not found
+}
+
 
 // The move function starts or continues movement
 function move() {
     if (player.direction == MOVE_NONE) {
         player.moving = false;
-        console.log(player.y);
+        //console.log(player.y);
         return;
     }
 
     player.moving = true;
-    console.log("move");
+    //console.log("move");
+
 
     if (player.direction == MOVE_LEFT) {
-        createjs.Tween.get(player).to({x: player.x - 16}, 500).call(move);
+
+        player_location[0] = player_location[0] - 1;
+        if(isItemInArray(mountain_array, player_location)){
+            console.log("you cannot move into the mountain");
+            player_location[0] = player_location[0] + 1;
+            player.moving = false;
+        }
+        else{
+           createjs.Tween.get(player).to({x: player.x - 16}, 500).call(move); 
+        }
     }
-    if (player.direction == MOVE_RIGHT)
-        createjs.Tween.get(player).to({x: player.x + 16}, 500).call(move);
 
-    if (player.direction == MOVE_UP)
-        createjs.Tween.get(player).to({y: player.y - 16}, 500).call(move);
+    if (player.direction == MOVE_RIGHT){
+        player_location[0] = player_location[0] + 1;
+        if(isItemInArray(mountain_array, player_location)){
+            console.log("you cannot move into the mountain");
+            player_location[0] = player_location[0] - 1;
+            player.moving = false;
+        }
+        else{
+            createjs.Tween.get(player).to({x: player.x + 16}, 500).call(move);
+        }
+        
+        
+    }
 
-    if (player.direction == MOVE_DOWN)
-        createjs.Tween.get(player).to({y: player.y + 16}, 500).call(move);
+
+    if (player.direction == MOVE_UP){
+        player_location[1] = player_location[1] - 1;
+        if(isItemInArray(mountain_array, player_location)){
+            console.log("you cannot move into the mountain");
+            player_location[1] = player_location[1] + 1;
+            player.moving = false;
+        }
+        else{
+            createjs.Tween.get(player).to({y: player.y - 16}, 500).call(move);
+        }       
+        
+    }
+
+    if (player.direction == MOVE_DOWN){
+        player_location[1] = player_location[1] + 1;
+        if(isItemInArray(mountain_array, player_location)){
+            console.log("you cannot move into the mountain");
+            player_location[1] = player_location[1] - 1;
+            player.moving = false;
+        }
+        else{
+            createjs.Tween.get(player).to({y: player.y + 16}, 500).call(move);
+        }
+        
+        
+    }
+    console.log(player_location);
 }
 
 // Keydown events start movement
@@ -111,6 +212,7 @@ function ready() {
     princess.position.x = 16;
     princess.position.y = 240;
     stage.addChild(princess);
+    var pincess_location = [2, 16];
 
 
 
