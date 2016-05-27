@@ -1,21 +1,90 @@
 var GAME_WIDTH = 416;
 var GAME_HEIGHT = 416;
-var GAME_SCALE = 2;
+var GAME_SCALE = 4;
 // var HORIZON_Y = GAME_HEIGHT/GAME_SCALE/2;
 
 var gameport = document.getElementById("gameport");
 var renderer = new PIXI.autoDetectRenderer(GAME_WIDTH,
                                            GAME_HEIGHT,
-                                           {backgroundColor: 0x99D5FF});
+                                           {backgroundColor: 'black'});
 gameport.appendChild(renderer.view);
+
 
 var stage = new PIXI.Container();
 var marry_stage = new PIXI.Container();
 var kiss_stage = new PIXI.Container();
 var tutorial_stage = new PIXI.Container();
 var credits_stage = new PIXI.Container();
+var rich_stage = new PIXI.Container();
+
 var menu_stage = new PIXI.Container();
-var lose_stage = new PIXI.Container();
+var menu_title_texture = new PIXI.Texture.fromImage("menu_title_sprite.png");
+var menu_title_sprite = new PIXI.Sprite(menu_title_texture);
+menu_title_sprite.position.x = 150;
+menu_title_sprite.position.y = 10;
+
+var menu_tutorial_texture = new PIXI.Texture.fromImage("menu_tutorial_sprite.png");
+var menu_tutorial_sprite = new PIXI.Sprite(menu_tutorial_texture);
+menu_tutorial_sprite.position.x = 150;
+menu_tutorial_sprite.position.y = 100;
+menu_tutorial_sprite.interactive = true;
+menu_tutorial_sprite.on('mousedown', tutorialMouseHandler);
+
+var menu_game_texture = new PIXI.Texture.fromImage("menu_game_sprite.png");
+var menu_game_sprite = new PIXI.Sprite(menu_game_texture);
+menu_game_sprite.position.x = 150;
+menu_game_sprite.position.y = 200;
+menu_game_sprite.interactive = true;
+menu_game_sprite.on('mousedown', gameMouseHandler);
+
+var menu_credits_texture = new PIXI.Texture.fromImage("menu_credits_sprite.png");
+var menu_credits_sprite = new PIXI.Sprite(menu_credits_texture);
+menu_credits_sprite.position.x = 150;
+menu_credits_sprite.position.y = 300;
+menu_credits_sprite.interactive = true;
+menu_credits_sprite.on('mousedown', creditsMouseHandler);
+
+menu_stage.addChild(menu_credits_sprite);
+menu_stage.addChild(menu_title_sprite);
+menu_stage.addChild(menu_tutorial_sprite);
+menu_stage.addChild(menu_game_sprite);
+
+var rich_stage_texture = new PIXI.Texture.fromImage("rich.png");
+var rich_stage_sprite = new PIXI.Sprite(rich_stage_texture);
+rich_stage.addChild(rich_stage_sprite);
+
+var credits_texture = new PIXI.Texture.fromImage("credits_sprite.png");
+var credits_sprite = new PIXI.Sprite(credits_texture);
+credits_stage.addChild(credits_sprite);
+
+var tutorial_texture = new PIXI.Texture.fromImage("tutorial_sprite.png");
+var tutorial_sprite = new PIXI.Sprite(tutorial_texture);
+tutorial_stage.addChild(tutorial_sprite);
+
+var kiss_stage_texture = new PIXI.Texture.fromImage("kiss_sprite.png");
+var kiss_stage_sprite = new PIXI.Sprite(kiss_stage_texture);
+kiss_stage.addChild(kiss_stage_sprite);
+
+var marry_stage_texture = new PIXI.Texture.fromImage("marry_sprite.png");
+var marry_stage_sprite = new PIXI.Sprite(marry_stage_texture);
+marry_stage.addChild(marry_stage_sprite);
+
+
+// create menu mouse handlers
+function gameMouseHandler(e){
+    current_stage = stage;
+}
+
+function tutorialMouseHandler(e){
+    current_stage = tutorial_stage;
+}
+
+function creditsMouseHandler(e){
+    current_stage = credits_stage;
+    itsme.play();
+}
+
+
 stage.scale.x = GAME_SCALE;
 stage.scale.y = GAME_SCALE;
 
@@ -50,7 +119,7 @@ var ogre;
 var ogre_dead;
 var ogre_location = [5, 16];
 var ogre_isDead = false;
-var current_stage = stage;
+var current_stage = menu_stage;
 
 
 var mountain_array = [];
@@ -155,25 +224,33 @@ window.addEventListener("keydown", function (e) {
     player.direction = MOVE_RIGHT;
 
     else if (e.keyCode == 13){
-        
+
         if ((player_location[0] == treasure_location[0]) && (player_location[1] == treasure_location[1])){
-            rich = true;
-            console.log("you are rich!");
-            stage.removeChild(treasure);
-            stage.addChild(treasure_empty);
+            if (current_stage == stage && rich == false){
+                rich = true;
+                chaching.play();
+                console.log("you are rich!");
+                stage.removeChild(treasure);
+                stage.addChild(treasure_empty);
+                current_stage = rich_stage;
+            }
+            else{
+                current_stage = stage;
+            }            
         }
-        if ((player_location == princess_location) && (rich == true)){
-            //marry princess
+        if ((player_location[0] == princess_location[0]) && (player_location[1] == princess_location[1]) && (rich == true)){
+            ooh.play();
+            current_stage = marry_stage;
         }
-        if ((player_location == princess_location) && (rich == false)){
-            //kiss princess
+        if ((player_location[0] == princess_location[0]) && (player_location[1] == princess_location[1]) && (rich == false)){
+            ooh.play();
+            current_stage = kiss_stage;
         }
-        //interact
+        
     }
 
     else if (e.keyCode == 27){
-        //escape
-        //menu
+        current_stage = menu_stage;
     }
     else if (e.keyCode == 32){
 
@@ -185,7 +262,7 @@ window.addEventListener("keydown", function (e) {
         attacker.x = tempx;
         attacker.y = tempy;
         attacker.gotoAndPlay(0);
-        //kill();
+        bya.play();
         setTimeout(function(){attacker.stop();}, 475);
         setTimeout(function(){stage.removeChild(attacker);}, 485);
         setTimeout(function(){stage.addChild(player);}, 485);
@@ -193,9 +270,10 @@ window.addEventListener("keydown", function (e) {
         if(monster1_dead == false){
             if( ((player_location[0] == monster1_location[0] + 1) || (player_location[0] == monster1_location[0] - 1) || ((player_location[0] == monster1_location[0]))) &&  ((player_location[1] == monster1_location[1] + 1) || (player_location[1] == monster1_location[1] - 1)) || (player_location[1] == monster1_location[1]) ){
             stage.removeChild(monster1);
+            monsterlastwords.play();
             stage.addChild(monster1_die);
             monster1_die.play();
-            setTimeout(function(){monster1_die.stop();}, 500);
+            setTimeout(function(){monster1_die.stop();}, 600);
             monster1_dead = true;
             }
             
@@ -204,9 +282,10 @@ window.addEventListener("keydown", function (e) {
         if(monster2_dead == false){
             if( ((player_location[0] == monster2_location[0] + 1) || (player_location[0] == monster2_location[0] - 1)) &&  ((player_location[1] == monster2_location[1] + 1) || (player_location[1] == monster2_location[1] - 1))  ){
             stage.removeChild(monster2);
+            monsterlastwords.play();
             stage.addChild(monster2_die);
             monster2_die.play();
-            setTimeout(function(){monster2_die.stop();}, 500);
+            setTimeout(function(){monster2_die.stop();}, 600);
             monster2_dead = true;
             }
             
@@ -215,6 +294,7 @@ window.addEventListener("keydown", function (e) {
         if(ogre_isDead == false){
             if( ((player_location[0] == ogre_location[0] + 1) || (player_location[0] == ogre_location[0] - 1)) &&  ((player_location[1] == ogre_location[1] + 1) || (player_location[1] == ogre_location[1] - 1))  ){
                 stage.removeChild(ogre);
+                ogrelastwords.play();
                 stage.addChild(ogre_dead);
                 ogre_isDead = true;
             }
@@ -242,7 +322,20 @@ PIXI.loader
     .add('map_json', 'map.json')
     .add("assets.json")
     .add('tileset', 'tileset.png')
+    .add("itsme.mp3")
+    .add("bya.mp3")
+    .add("chaching.mp3")
+    .add("monsterlastwords.mp3")
+    .add("ogrelastwords.mp3")
+    .add("ooh.mp3")
     .load(ready);
+
+var itsme;
+var bya;
+var chaching;
+var monsterlastwords;
+var ogrelastwords;
+var ooh;
 
 function ready() {
     //create world
@@ -275,6 +368,12 @@ function ready() {
     attacker.scale.x = .5;
     attacker.scale.y = .5;
 
+    itsme = PIXI.audioManager.getAudio("itsme.mp3");
+    bya = PIXI.audioManager.getAudio("bya.mp3");
+    chaching = PIXI.audioManager.getAudio("chaching.mp3");
+    monsterlastwords = PIXI.audioManager.getAudio("monsterlastwords.mp3");
+    ogrelastwords = PIXI.audioManager.getAudio("ogrelastwords.mp3");
+    ooh = PIXI.audioManager.getAudio("ooh.mp3");
 
 
 
