@@ -10,6 +10,12 @@ var renderer = new PIXI.autoDetectRenderer(GAME_WIDTH,
 gameport.appendChild(renderer.view);
 
 var stage = new PIXI.Container();
+var marry_stage = new PIXI.Container();
+var kiss_stage = new PIXI.Container();
+var tutorial_stage = new PIXI.Container();
+var credits_stage = new PIXI.Container();
+var menu_stage = new PIXI.Container();
+var lose_stage = new PIXI.Container();
 stage.scale.x = GAME_SCALE;
 stage.scale.y = GAME_SCALE;
 
@@ -17,7 +23,7 @@ stage.scale.y = GAME_SCALE;
 var player;
 var world;
 
-// Character movement constants:
+// variable declarations
 var MOVE_LEFT = 1;
 var MOVE_RIGHT = 2;
 var MOVE_UP = 3;
@@ -32,6 +38,20 @@ var monster1_location = [16, 14];
 var monster2_location = [17, 14];
 var monster1_die;
 var monster2_die;
+var princess;
+var princess_location = [2, 16];
+var treasure;
+var treasure_location = [14, 3];
+var treasure_empty;
+var rich = false;
+var monster1_dead = false;
+var monster2_dead = false;
+var ogre;
+var ogre_dead;
+var ogre_location = [5, 16];
+var ogre_isDead = false;
+var current_stage = stage;
+
 
 var mountain_array = [];
 add_mountains();
@@ -133,6 +153,28 @@ window.addEventListener("keydown", function (e) {
     player.direction = MOVE_LEFT;
     else if (e.keyCode == 68)
     player.direction = MOVE_RIGHT;
+
+    else if (e.keyCode == 13){
+        
+        if ((player_location[0] == treasure_location[0]) && (player_location[1] == treasure_location[1])){
+            rich = true;
+            console.log("you are rich!");
+            stage.removeChild(treasure);
+            stage.addChild(treasure_empty);
+        }
+        if ((player_location == princess_location) && (rich == true)){
+            //marry princess
+        }
+        if ((player_location == princess_location) && (rich == false)){
+            //kiss princess
+        }
+        //interact
+    }
+
+    else if (e.keyCode == 27){
+        //escape
+        //menu
+    }
     else if (e.keyCode == 32){
 
         //attack
@@ -148,20 +190,38 @@ window.addEventListener("keydown", function (e) {
         setTimeout(function(){stage.removeChild(attacker);}, 485);
         setTimeout(function(){stage.addChild(player);}, 485);
 
-        if( ((player_location[0] == monster1_location[0] + 1) || (player_location[0] == monster1_location[0] - 1) || ((player_location[0] == monster1_location[0]))) &&  ((player_location[1] == monster1_location[1] + 1) || (player_location[1] == monster1_location[1] - 1)) || (player_location[1] == monster1_location[1]) ){
-        stage.removeChild(monster1);
-        stage.addChild(monster1_die);
-        monster1_die.play();
-        setTimeout(function(){monster1_die.stop();}, 500);
-
+        if(monster1_dead == false){
+            if( ((player_location[0] == monster1_location[0] + 1) || (player_location[0] == monster1_location[0] - 1) || ((player_location[0] == monster1_location[0]))) &&  ((player_location[1] == monster1_location[1] + 1) || (player_location[1] == monster1_location[1] - 1)) || (player_location[1] == monster1_location[1]) ){
+            stage.removeChild(monster1);
+            stage.addChild(monster1_die);
+            monster1_die.play();
+            setTimeout(function(){monster1_die.stop();}, 500);
+            monster1_dead = true;
+            }
+            
+        }
+        
+        if(monster2_dead == false){
+            if( ((player_location[0] == monster2_location[0] + 1) || (player_location[0] == monster2_location[0] - 1)) &&  ((player_location[1] == monster2_location[1] + 1) || (player_location[1] == monster2_location[1] - 1))  ){
+            stage.removeChild(monster2);
+            stage.addChild(monster2_die);
+            monster2_die.play();
+            setTimeout(function(){monster2_die.stop();}, 500);
+            monster2_dead = true;
+            }
+            
         }
 
-    if( ((player_location[0] == monster2_location[0] + 1) || (player_location[0] == monster2_location[0] - 1)) &&  ((player_location[1] == monster2_location[1] + 1) || (player_location[1] == monster2_location[1] - 1))  ){
-        stage.removeChild(monster2);
-        stage.addChild(monster2_die);
-        monster2_die.play();
-        setTimeout(function(){monster2_die.stop();}, 500);
+        if(ogre_isDead == false){
+            if( ((player_location[0] == ogre_location[0] + 1) || (player_location[0] == ogre_location[0] - 1)) &&  ((player_location[1] == ogre_location[1] + 1) || (player_location[1] == ogre_location[1] - 1))  ){
+                stage.removeChild(ogre);
+                stage.addChild(ogre_dead);
+                ogre_isDead = true;
+            }
+
+            
         }
+        
 
     }
 
@@ -249,8 +309,7 @@ function ready() {
     monster1_die.animationSpeed = 0.1;
     monster1_die.x = 240;
     monster1_die.y = 208;
-    // monster1.play();
-    // stage.addChild(monster1);
+
 
     monster2_die = new PIXI.extras.MovieClip(monster_die_arr);
     monster2_die.animationSpeed = 0.1;
@@ -258,21 +317,38 @@ function ready() {
     monster2_die.y = 208;
 
 
+    //create ogre
+    var ogre_tex = new PIXI.Texture.fromImage("ogre.png");
+    ogre = new PIXI.Sprite(ogre_tex);
+    ogre.position.x = 62;
+    ogre.position.y = 235;
+    stage.addChild(ogre);
+
+    var ogre_dead_tex = new PIXI.Texture.fromImage("ogre_dead.png");
+    ogre_dead = new PIXI.Sprite(ogre_dead_tex);
+    ogre_dead.position.x = 62;
+    ogre_dead.position.y = 235;
+
     //create princess
     var princess_tex = new PIXI.Texture.fromImage("princess.png");
-    var princess = new PIXI.Sprite(princess_tex)
+    princess = new PIXI.Sprite(princess_tex)
     princess.position.x = 16;
     princess.position.y = 240;
     stage.addChild(princess);
-    var pincess_location = [2, 16];
+    
 
     //create treasure
     var treausure_tex = new PIXI.Texture.fromImage("treasure.png");
-    var treasure = new PIXI.Sprite(treausure_tex);
+    treasure = new PIXI.Sprite(treausure_tex);
     treasure.position.x = 208;
     treasure.position.y = 32;
     stage.addChild(treasure);
-    var treasure_location = [14, 3];
+
+    var treasure_empty_tex = new PIXI.Texture.fromImage("treasure_empty.png");
+    treasure_empty = new PIXI.Sprite(treasure_empty_tex);
+    treasure_empty.position.x = 208;
+    treasure_empty.position.y = 32;
+    
 
 
     player.direction = MOVE_NONE;
@@ -289,7 +365,7 @@ function animate(timestamp) {
         player.stop();
     }
     update_camera();
-    renderer.render(stage);
+    renderer.render(current_stage);
 }
 
 function update_camera() {
