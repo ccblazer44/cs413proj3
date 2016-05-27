@@ -26,10 +26,15 @@ var MOVE_NONE = 0;
 var player_location = [3, 2];
 var tempx;
 var tempy;
+var monster1;
+var monster2;
+var monster1_location = [16, 14];
+var monster2_location = [17, 14];
+var monster1_die;
+var monster2_die;
 
 var mountain_array = [];
 add_mountains();
-
 
 
 function isItemInArray(array, item) {
@@ -129,6 +134,8 @@ window.addEventListener("keydown", function (e) {
     else if (e.keyCode == 68)
     player.direction = MOVE_RIGHT;
     else if (e.keyCode == 32){
+
+        //attack
         tempx = player.x - 17;
         tempy = player.y - 32;
         stage.removeChild(player);
@@ -136,11 +143,26 @@ window.addEventListener("keydown", function (e) {
         attacker.x = tempx;
         attacker.y = tempy;
         attacker.gotoAndPlay(0);
-        
+        //kill();
         setTimeout(function(){attacker.stop();}, 475);
         setTimeout(function(){stage.removeChild(attacker);}, 485);
         setTimeout(function(){stage.addChild(player);}, 485);
-        // stage.addChild(player);
+
+        if( ((player_location[0] == monster1_location[0] + 1) || (player_location[0] == monster1_location[0] - 1) || ((player_location[0] == monster1_location[0]))) &&  ((player_location[1] == monster1_location[1] + 1) || (player_location[1] == monster1_location[1] - 1)) || (player_location[1] == monster1_location[1]) ){
+        stage.removeChild(monster1);
+        stage.addChild(monster1_die);
+        monster1_die.play();
+        setTimeout(function(){monster1_die.stop();}, 500);
+
+        }
+
+    if( ((player_location[0] == monster2_location[0] + 1) || (player_location[0] == monster2_location[0] - 1)) &&  ((player_location[1] == monster2_location[1] + 1) || (player_location[1] == monster2_location[1] - 1))  ){
+        stage.removeChild(monster2);
+        stage.addChild(monster2_die);
+        monster2_die.play();
+        setTimeout(function(){monster2_die.stop();}, 500);
+        }
+
     }
 
     console.log(e.keyCode);
@@ -192,10 +214,7 @@ function ready() {
     attacker.animationSpeed = 0.2;
     attacker.scale.x = .5;
     attacker.scale.y = .5;
-    //attacker.x = 64;
-    //attacker.y = 64;
-    //attacker.play();
-    //stage.addChild(attacker);
+
 
 
 
@@ -205,21 +224,39 @@ function ready() {
     monster_arr.push(PIXI.Texture.fromFrame("monster2.png"));
     monster_arr.push(PIXI.Texture.fromFrame("monster3.png"));
 
-    var monster1 = new PIXI.extras.MovieClip(monster_arr);
+    monster1 = new PIXI.extras.MovieClip(monster_arr);
     monster1.animationSpeed = 0.1;
     monster1.x = 240;
     monster1.y = 208;
     monster1.play();
     stage.addChild(monster1);
-    var monster1_location = [16, 14];
+    
 
-    var monster2 = new PIXI.extras.MovieClip(monster_arr);
+    monster2 = new PIXI.extras.MovieClip(monster_arr);
     monster2.animationSpeed = 0.1;
     monster2.x = 256;
     monster2.y = 208;
     monster2.play();
     stage.addChild(monster2);
-    var monster2_location = [17, 14];
+    
+
+    //create dead monsters
+    var monster_die_arr = [];
+    for (var i = 1; i <= 4; i++){
+        monster_die_arr.push(PIXI.Texture.fromFrame("monster_die" + i + ".png"))
+    }
+    monster1_die = new PIXI.extras.MovieClip(monster_die_arr);
+    monster1_die.animationSpeed = 0.1;
+    monster1_die.x = 240;
+    monster1_die.y = 208;
+    // monster1.play();
+    // stage.addChild(monster1);
+
+    monster2_die = new PIXI.extras.MovieClip(monster_die_arr);
+    monster2_die.animationSpeed = 0.1;
+    monster2_die.x = 256;
+    monster2_die.y = 208;
+
 
     //create princess
     var princess_tex = new PIXI.Texture.fromImage("princess.png");

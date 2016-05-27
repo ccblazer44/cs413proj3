@@ -200,6 +200,10 @@
             <key type="filename">monster1.png</key>
             <key type="filename">monster2.png</key>
             <key type="filename">monster3.png</key>
+            <key type="filename">monster_die1.png</key>
+            <key type="filename">monster_die2.png</key>
+            <key type="filename">monster_die3.png</key>
+            <key type="filename">monster_die4.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -219,6 +223,10 @@
             <filename>hero_attacking4.png</filename>
             <filename>hero_attacking5.png</filename>
             <filename>hero_attacking6.png</filename>
+            <filename>monster_die1.png</filename>
+            <filename>monster_die2.png</filename>
+            <filename>monster_die3.png</filename>
+            <filename>monster_die4.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
